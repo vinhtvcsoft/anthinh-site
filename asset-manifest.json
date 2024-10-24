@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/anthinh-site/static/css/main.135cde82.css",
+    "main.js": "/anthinh-site/static/js/main.11e56625.js",
+    "static/js/453.d503d111.chunk.js": "/anthinh-site/static/js/453.d503d111.chunk.js",
+    "index.html": "/anthinh-site/index.html",
+    "main.135cde82.css.map": "/anthinh-site/static/css/main.135cde82.css.map",
+    "main.11e56625.js.map": "/anthinh-site/static/js/main.11e56625.js.map",
+    "453.d503d111.chunk.js.map": "/anthinh-site/static/js/453.d503d111.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.135cde82.css",
+    "static/js/main.11e56625.js"
+  ]
+}

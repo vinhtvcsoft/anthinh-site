@@ -23,7 +23,8 @@ const PricePopover: React.FC<IPricePopover> = ({ anchorEl, handleOk, handleClose
     const styles = createStyle();
 
     const { price: reduxPrice } = useFilter();
-    const [price, setPrice] = useState<number[]>([defaultPrices.bFromPrice, defaultPrices.bToPrice]);
+    const { fPrice, tPrice } = defaultPrices
+    const [price, setPrice] = useState<number[]>([fPrice, tPrice]);
     const [priceText, setPriceText] = useState<string[]>(['0', '10 tỷ']);
     const [checkPrice, setCheckPrice] = useState({
         all: true,
@@ -44,7 +45,7 @@ const PricePopover: React.FC<IPricePopover> = ({ anchorEl, handleOk, handleClose
 
     useEffect(() => {
         setPriceText([convertNumberToVNDString(price[0]), convertNumberToVNDString(price[1])]);
-        if (price[0] === defaultPrices.bFromPrice && price[1] === defaultPrices.bToPrice) {
+        if (price[0] === fPrice && price[1] === tPrice) {
             setCheckPrice(handleCheckPrice('all'));
         }
 
@@ -57,7 +58,7 @@ const PricePopover: React.FC<IPricePopover> = ({ anchorEl, handleOk, handleClose
             two2three: false,
             three2five: false,
         }
-        if (reduxPrice[0] === defaultPrices.bFromPrice && reduxPrice[1] === defaultPrices.bToPrice) obj.all = true;
+        if (reduxPrice[0] === fPrice && reduxPrice[1] === tPrice) obj.all = true;
         else if (reduxPrice[0] >= 1000 && reduxPrice[1] <= 2000) obj.one2two = true;
         else if (reduxPrice[0] >= 2000 && reduxPrice[1] <= 3000) obj.two2three = true;
         else if (reduxPrice[0] >= 3000 && reduxPrice[1] <= 5000) obj.three2five = true;
@@ -124,8 +125,8 @@ const PricePopover: React.FC<IPricePopover> = ({ anchorEl, handleOk, handleClose
                         }}
                         valueLabelDisplay="off"
                         step={100}
-                        min={defaultPrices.bFromPrice}
-                        max={defaultPrices.bToPrice}
+                        min={fPrice}
+                        max={tPrice}
                     />
                 </Box>
                 <Box>
@@ -187,12 +188,12 @@ const PricePopover: React.FC<IPricePopover> = ({ anchorEl, handleOk, handleClose
                         fontWeight: 700,
                         p: 0
                     }}
-                    onClick={() => setPrice([defaultPrices.bFromPrice, defaultPrices.bToPrice])}
+                    onClick={() => setPrice([fPrice, tPrice])}
                 >Đặt lại</Button>
                 <Button
                     sx={{
                         backgroundColor: '#C80001',
-                        color: '#FFF',
+                        color: '#FFF !important',
                         textTransform: 'none',
                         fontWeight: 700,
                         p: 0,

@@ -4,6 +4,8 @@ import { IFiltersState } from "./reducer";
 const selector = (state: { filter: IFiltersState }) =>
   state.filter;
 
+
+//Searching properties
 const locations = createSelector(selector, ({ locations }: IFiltersState) => locations);
 const tsearch = createSelector(selector, ({ tsearch }: IFiltersState) => tsearch);
 const price = createSelector(selector, ({ price }: IFiltersState) => price);
@@ -12,4 +14,16 @@ const mainDirection = createSelector(selector, ({ mainDirection }: IFiltersState
 const bedroom = createSelector(selector, ({ bedroom }: IFiltersState) => bedroom);
 const balconyDirection = createSelector(selector, ({ balconyDirection }: IFiltersState) => balconyDirection);
 
-export { locations, tsearch, price, area, bedroom, mainDirection, balconyDirection };
+//Data
+const options = createSelector(selector, ({ options }: IFiltersState) => options);
+
+export {
+  locations,
+  tsearch,
+  price,
+  area,
+  bedroom,
+  mainDirection,
+  balconyDirection,
+  options,
+};

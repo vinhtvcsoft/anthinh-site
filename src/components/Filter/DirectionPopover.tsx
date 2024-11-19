@@ -51,6 +51,7 @@ const DirectionPopover: React.FC<IDirectionPopover> = ({ anchorEl, handleOk, han
                     return {
                         ...item,
                         color: '#C80001',
+
                     }
                 }
                 return {
@@ -97,11 +98,11 @@ const DirectionPopover: React.FC<IDirectionPopover> = ({ anchorEl, handleOk, han
             </Box>
             <Box p={'16px'} borderBottom={'1px solid #E0E0E0'}>
                 <Box width={1} height={240}>
-
                     <PieChart
                         series={
                             [{
                                 data,
+
                                 arcLabel: 'label',
                                 arcLabelMinAngle: 18,
                                 arcLabelRadius: '90%',
@@ -143,6 +144,7 @@ const DirectionPopover: React.FC<IDirectionPopover> = ({ anchorEl, handleOk, han
                                     temp.splice(temp.indexOf(a as EDirection), 1);
                                 }
                                 else temp.push(itemId);
+                                setDirect(temp);
                                 return temp;
                             })
                         }}
@@ -160,12 +162,15 @@ const DirectionPopover: React.FC<IDirectionPopover> = ({ anchorEl, handleOk, han
                         fontWeight: 700,
                         p: 0
                     }}
-                    onClick={() => setDirect(itemsClicked)}
+                    onClick={() => {
+                        setItemsClicked([]);
+                        setDirect([]);
+                    }}
                 >Đặt lại</Button>
                 <Button
                     sx={{
                         backgroundColor: '#C80001',
-                        color: '#FFF',
+                        color: '#FFF !important',
                         textTransform: 'none',
                         fontWeight: 700,
                         p: 0,

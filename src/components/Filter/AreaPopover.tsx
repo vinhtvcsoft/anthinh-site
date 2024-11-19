@@ -23,7 +23,8 @@ const AreaPopover: React.FC<IAreaPopover> = ({ anchorEl, handleOk, handleClose }
     const styles = createStyle();
 
     const { area: reduxArea } = useFilter();
-    const [area, setArea] = useState<number[]>([defaultArea.from, defaultArea.to]);
+    const { fArea, tArea } = defaultArea
+    const [area, setArea] = useState<number[]>([fArea, tArea]);
     const [areaText, setAreaText] = useState<string[]>(['0', '150 m²']);
     const [checkArea, setCheckArea] = useState({
         all: true,
@@ -44,7 +45,7 @@ const AreaPopover: React.FC<IAreaPopover> = ({ anchorEl, handleOk, handleClose }
 
     useEffect(() => {
         setAreaText([`${area[0]} m²`, `${area[1]} m²`]);
-        if (area[0] === defaultArea.from && area[1] === defaultArea.to) {
+        if (area[0] === fArea && area[1] === tArea) {
             setCheckArea(handleCheckArea('all'));
         }
 
@@ -57,7 +58,7 @@ const AreaPopover: React.FC<IAreaPopover> = ({ anchorEl, handleOk, handleClose }
             fifty2eighty: false,
             eighty2onehundred: false,
         }
-        if (reduxArea[0] === defaultArea.from && reduxArea[1] === defaultArea.to) obj.all = true;
+        if (reduxArea[0] === fArea && reduxArea[1] === tArea) obj.all = true;
         else if (reduxArea[0] >= 0 && reduxArea[1] <= 50) obj.lt50 = true;
         else if (reduxArea[0] >= 50 && reduxArea[1] <= 80) obj.fifty2eighty = true;
         else if (reduxArea[0] >= 80 && reduxArea[1] <= 100) obj.eighty2onehundred = true;
@@ -124,8 +125,8 @@ const AreaPopover: React.FC<IAreaPopover> = ({ anchorEl, handleOk, handleClose }
                         }}
                         valueLabelDisplay="off"
                         step={2}
-                        min={defaultArea.from}
-                        max={defaultArea.to}
+                        min={fArea}
+                        max={tArea}
                     />
                 </Box>
                 <Box>
@@ -187,12 +188,12 @@ const AreaPopover: React.FC<IAreaPopover> = ({ anchorEl, handleOk, handleClose }
                         fontWeight: 700,
                         p: 0
                     }}
-                    onClick={() => setArea([defaultArea.from, defaultArea.to])}
+                    onClick={() => setArea([fArea, tArea])}
                 >Đặt lại</Button>
                 <Button
                     sx={{
                         backgroundColor: '#C80001',
-                        color: '#FFF',
+                        color: '#FFF !important',
                         textTransform: 'none',
                         fontWeight: 700,
                         p: 0,

@@ -118,6 +118,9 @@ const AppBar: React.FC = () => {
         </Stack>
         <Button
           variant="contained"
+          onClick={() => {
+            navigate('/ky-gui');
+          }}
           sx={{
             width: '140px',
             textTransform: "none",

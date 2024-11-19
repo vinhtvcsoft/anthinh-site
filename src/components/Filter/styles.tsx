@@ -7,7 +7,7 @@ export default () => {
             "&.Mui-selected": { color: "#C80001" },
         },
         buttonFilter: {
-            color: 'rgba(0, 0, 0, 0.87)',
+            // color: 'rgba(0, 0, 0, 0.87)',
             border: '1px solid rgba(0, 0, 0, 0.87)',
             textTransform: 'none',
             minWidth: '120px',
@@ -40,15 +40,15 @@ export default () => {
         },
         bedroomBtn: {
             backgroundColor: '#E8E9EB',
-            color: '#181A20',
+            color: '#181A20 !important',
             '&:hover': {
-                backgroundColor: '#C80001',
-                color: '#FFFFFF',
+                backgroundColor: '#E8E9EB',
+                color: '#181A20 !important',
             }
         },
         bedroomBtnClicked: {
             backgroundColor: '#C80001',
-            color: '#FFFFFF',
+            color: '#FFF !important',
         }
 
     };

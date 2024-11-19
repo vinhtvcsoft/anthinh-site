@@ -1,38 +1,53 @@
 import React, { memo, useEffect, useMemo } from "react";
 import {
-    Breadcrumbs,
     Filter
 } from 'components'
-import { get } from 'services/api/common';
 import {
     Box,
     Container,
     Typography,
     Stack,
-    Button,
+    Pagination,
 } from "@mui/material";
-import { useFilter } from 'hooks';
-import { useLocation } from 'react-router-dom';
+import { useFilter, useHouse } from 'hooks';
 import { ESearchType } from 'types';
+import Item from './components/Item';
 
 const ListCard: React.FC = () => {
-    const { tsearch } = useFilter();
-    const { pathname } = useLocation();
+    const { tsearch, locations, } = useFilter();
+    const { get: getHouse, houseRecords } = useHouse();
     const title = useMemo(() => {
-        if (tsearch === ESearchType.B) return 'Căn hộ bán tại thành phố Hồ Chí Minh';
-        else return 'Căn hộ cho thuê tại thành phố Hồ Chí Minh';
-    }, [tsearch]);
+        let text = '';
+
+        if (tsearch === ESearchType.B) text = 'Căn hộ bán tại';
+        else text = 'Căn hộ cho thuê tại';
+
+        if (locations.length > 0) {
+            if (locations.length === 1) text += ` dự án${locations[0].matchname}`;
+            else {
+                text += ' các dự án';
+                locations.forEach(location => text += ` ${location.matchname},`);
+                text = text.substring(0, text.length - 1);
+            }
+        }
+        else {
+            text += ' thành phố Hồ Chí Minh';
+        }
+
+        return text
+    }, [tsearch, locations]);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [pathname]);
-
-    useEffect(() => {
-        get();
-    }, []);
+        if (tsearch) {
+            getHouse({ t: tsearch, p: 1, ps: 10 });
+        }
+    }, [
+        tsearch,
+        locations,
+    ]);
 
     return (
-        <Container sx={{ overflow: 'hidden' }}>
+        <Container maxWidth={'lg'} sx={{ overflow: 'hidden' }}>
             <Box
                 id='filter-box'
                 sx={{
@@ -42,23 +57,42 @@ const ListCard: React.FC = () => {
             >
                 <Filter />
             </Box>
-            <Stack id='breadcrumbs-box' py={'12px'} rowGap={1}>
-                {title && <Typography variant="h1" sx={{ fontSize: '24px' }}>{title}</Typography>}
-                <Breadcrumbs />
+            <Stack py={'12px'} rowGap={1}>
+                {title && <Typography sx={{ fontSize: '24px', fontWeight: 700 }}>{title}</Typography>}
             </Stack>
-            <Box id='items-box'>
-                <Box display={'flex'}>
-                    {/* Loop Items */}
-                    <Box id='avatar-property'></Box>
-                    <Box id='item-content'> </Box>
+            <Box width={1} display={'flex'}>
+                <Box flex={7.5}>
+                    {houseRecords && houseRecords.map((house) => (
+                        <Item house={house} key={house.houseid} />
+                    ))}
                 </Box>
-                <Box my='24px' display={'flex'}>
-                    <Button sx={{ mx: 'auto', width: '155px', borderRadius: '6px', border: '1px solid #2C2C2C', backgroundColor: 'white', color: '#2C2C2C', lineHeight: '24px' }}>
-                        Xem thêm
-                    </Button>
+                <Box flex={2.5} ml={2}>
+                    <Box sx={{
+                        height: '350px',
+                        width: 1,
+                        backgroundColor: '#F2F2F2',
+                        p: 2,
+                        borderRadius: '8px',
+                    }}>
+                        <Typography sx={{ fontSize: '14px', fontWeight: 700, lineHeight: '20px' }}>Bán căn hộ chung cư tại Quận Tân Phú</Typography>
+                        <Stack spacing={1} mt={1}>
+                            <Typography sx={{ color: '#505050', fontSize: '14px', lineHeight: '20px' }}>Lostus Garden (8)</Typography>
+                            <Typography sx={{ color: '#505050', fontSize: '14px', lineHeight: '20px' }}>Trung Đông Plaza (3)</Typography>
+                            <Typography sx={{ color: '#505050', fontSize: '14px', lineHeight: '20px' }}>Khang Phú (5)</Typography>
+                            <Typography sx={{ color: '#505050', fontSize: '14px', lineHeight: '20px' }}>Sài Gòn Tower (10)</Typography>
+                        </Stack>
+                    </Box>
                 </Box>
             </Box>
-
+            <Stack spacing={2}>
+                <Pagination sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+                    count={10}
+                    variant="outlined"
+                    shape="rounded" />
+            </Stack>
         </Container>
     );
 };

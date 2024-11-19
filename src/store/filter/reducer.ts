@@ -1,36 +1,43 @@
 /** @format */
 import { createSlice } from "@reduxjs/toolkit";
-import { ILocationModel, ESearchType, EDirection } from 'types';
+import {
+  ESearchType,
+  EDirection,
+  ISuggestSearchParam,
+  ILocationItem,
+} from 'types';
 
 
 interface IFiltersState {
-  locations: ILocationModel[];
-  tsearch: ESearchType;
+  locations: ILocationItem[];
+  tsearch: ESearchType | null;
   price: number[];
   area: number[];
   bedroom: number[];
   mainDirection: EDirection[];
   balconyDirection: EDirection[];
+  options: ILocationItem[];
 }
 // // TODO: Store design
 const initialState: IFiltersState = {
   locations: [],
-  tsearch: ESearchType.B,
+  tsearch: null,
   price: [0, 10000],
   area: [0, 150],
   bedroom: [],
   mainDirection: [],
-  balconyDirection: []
+  balconyDirection: [],
+  options: []
 };
 const slice = createSlice({
-  name: "autocomplete",
+  name: "filter",
   initialState: initialState,
   reducers: {
     updFilterRequest: (
       state,
       data: {
         payload: {
-          locations?: ILocationModel[],
+          locations?: ILocationItem[],
           tsearch?: ESearchType,
           price?: number[],
           area?: number[],
@@ -45,12 +52,44 @@ const slice = createSlice({
         ...data.payload
       };
     },
+    suggestRequest: (state, _data: { payload: { params: ISuggestSearchParam } }) => ({
+      ...state,
+      error: null,
+      message: null,
+      loading: true,
+    }),
+    suggestRequestSuccess: (
+      state,
+      { payload }: { payload: { data: ILocationItem[] } }
+    ) => ({
+      ...state,
+      options: payload.data,
+      error: null,
+      message: null,
+      loading: false,
+    }),
+    requestFailure: (state, { payload }) => ({
+      ...state,
+      error: payload,
+      message: null,
+      loading: false,
+    }),
   },
 });
 
 const { actions, reducer } = slice;
-const { updFilterRequest } = actions;
+const {
+  updFilterRequest,
+  suggestRequest,
+  suggestRequestSuccess,
+  requestFailure,
+} = actions;
 
-export { updFilterRequest };
+export {
+  updFilterRequest,
+  suggestRequest,
+  suggestRequestSuccess,
+  requestFailure,
+};
 export type { IFiltersState };
 export default reducer;

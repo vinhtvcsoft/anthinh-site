@@ -6,10 +6,12 @@ import {
     area as areaSel,
     bedroom as bedroomSel,
     mainDirection as mainDirectionSel,
-    balconyDirection as balconyDirectionSel
+    balconyDirection as balconyDirectionSel,
+    options as optionsSel,
 } from 'store/filter/selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { ESearchType, ILocationModel, EDirection } from 'types';
+import { suggestRequest } from 'store/filter/reducer';
+import { ESearchType, ILocationItem, EDirection, ISuggestSearchParam } from 'types';
 
 export function useFilter() {
     const dispatch = useDispatch();
@@ -21,8 +23,10 @@ export function useFilter() {
     const mainDirection = useSelector(mainDirectionSel);
     const balconyDirection = useSelector(balconyDirectionSel);
 
+    const options = useSelector(optionsSel);
+
     const updateFilter = (data: {
-        locations?: ILocationModel[],
+        locations?: ILocationItem[],
         tsearch?: ESearchType,
         price?: number[],
         area?: number[],
@@ -31,6 +35,10 @@ export function useFilter() {
         balconyDirection?: EDirection[]
     }) => {
         dispatch(updFilterRequest(data));
+    };
+
+    const suggest = (params: ISuggestSearchParam) => {
+        dispatch(suggestRequest({ params }));
     };
 
     return {
@@ -42,5 +50,7 @@ export function useFilter() {
         mainDirection,
         balconyDirection,
         updateFilter,
+        suggest,
+        options,
     }
 }

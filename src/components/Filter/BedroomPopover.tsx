@@ -54,7 +54,7 @@ const BedroomPopover: React.FC<IBedroomPopover> = ({ anchorEl, handleOk, handleC
             }
         }}
     >
-        <Box sx={{ width: '240px' }}>
+        <Box sx={{ width: '310px' }}>
             <Box borderBottom={'1px solid #E0E0E0'}>
                 <Stack
                     m='12px'
@@ -72,7 +72,7 @@ const BedroomPopover: React.FC<IBedroomPopover> = ({ anchorEl, handleOk, handleC
             </Box>
             <Box p={'16px'} borderBottom={'1px solid #E0E0E0'}>
                 <Stack width={1} direction={'row'} columnGap={1} mx={'auto'}>
-                    {[1, 2, 3].map((item) => (
+                    {[1, 2, 3, 4].map((item) => (
                         <Button
                             key={item}
                             sx={itemsClicked.includes(item) ? styles.bedroomBtnClicked : styles.bedroomBtn}
@@ -84,11 +84,13 @@ const BedroomPopover: React.FC<IBedroomPopover> = ({ anchorEl, handleOk, handleC
                                         a && temp.splice(temp.indexOf(a), 1);
                                     }
                                     else temp.push(item);
+                                    setBedroom(temp);
                                     return temp;
-                                })
+                                });
+
                             }}
                         >
-                            {item === 3 ? `${item}+` : item}
+                            {item === 4 ? `${item}+` : item}
                         </Button>
                     ))}
                 </Stack>
@@ -101,12 +103,15 @@ const BedroomPopover: React.FC<IBedroomPopover> = ({ anchorEl, handleOk, handleC
                         fontWeight: 700,
                         p: 0
                     }}
-                    onClick={() => setBedroom([])}
+                    onClick={() => {
+                        setItemsClicked([]);
+                        setBedroom([]);
+                    }}
                 >Đặt lại</Button>
                 <Button
                     sx={{
                         backgroundColor: '#C80001',
-                        color: '#FFF',
+                        color: '#FFF !important',
                         textTransform: 'none',
                         fontWeight: 700,
                         p: 0,
